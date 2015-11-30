@@ -16,6 +16,9 @@ if (isset($_REQUEST['sku_id'])) {
         $sku_id = -9999;
         die;
     }
+} else {
+    echo "非法请求";
+    die;
 }
 
 ?>
@@ -27,8 +30,8 @@ if (isset($_REQUEST['sku_id'])) {
 <script language="JavaScript">
 
     var g_sku_id = <?php echo $sku_id; ?>;
-    var image_url_prefix_xl = 'http://img12.360buyimg.com/n1/';
-    var image_url_prefix_xs = 'http://img12.360buyimg.com/n9/';
+    var image_url_prefix_xl = 'http://img11.360buyimg.com/n1/';
+    var image_url_prefix_xs = 'http://img11.360buyimg.com/n9/';
 
 
     $(document).ready(function() {
@@ -60,11 +63,15 @@ if (isset($_REQUEST['sku_id'])) {
                 $.hideLoading();
             },
             success:function(data){
-                $.hideLoading();
-                fillThumb(data.worthy);
-                fillDiscounts(data.discount_list);
-                loadCharts(data.price_chart);
-                fillImageFlips(data.worthy,data.images);
+                try {
+                    fillThumb(data.worthy);
+                    fillDiscounts(data.discount_list);
+                    loadCharts(data.price_chart);
+                    fillImageFlips(data.worthy, data.images);
+                    fillDiscountHistory(data.discount_history_list);
+                } finally {
+                    $.hideLoading();
+                }
             },
             cache: true
         });
@@ -92,13 +99,13 @@ if (isset($_REQUEST['sku_id'])) {
             '                </div>';
         $("#j_image_div").html(markup);
 
-        $('#carousel-239807').hammer().on('swipeleft', function(){
-            $(this).carousel('next');
-        });
-
-        $('#carousel-239807').hammer().on('swiperight', function(){
-            $(this).carousel('prev');
-        });
+//        $('#carousel-239807').hammer().on('swipeleft', function(){
+//            $(this).carousel('next');
+//        });
+//
+//        $('#carousel-239807').hammer().on('swiperight', function(){
+//            $(this).carousel('prev');
+//        });
     }
 
     function fillThumb(thumb) {
@@ -141,6 +148,36 @@ if (isset($_REQUEST['sku_id'])) {
                 '    </div>';
         }
         $("#j_discount_div").html(markup);
+    }
+
+    function fillDiscountHistory(discounts) {
+        var markup = "";
+        if (discounts.length == 0) {
+            markup = "从2015年11月30日起没有参与活动";
+        } else {
+            for (i=0;i<discounts.length;i++) {
+                var hot_str = "";
+                var font_str = "";
+                if (discounts[i].score > 4) hot_str += " w-color-main ";
+                if (discounts[i].score > 3) hot_str += " b ";
+                if (discounts[i].score <= 2) font_str = "-s";
+                markup += '<div class="row">' +
+                    '        <div class="col-xs-3 col-sm-3">' +
+                    '            <div class="w-grid">' +
+                        '<span class="w-label-s">' +
+                    discounts[i].dt + '</span>' +
+                    '            </div>' +
+                    '        </div>' +
+                    '        <div class="col-xs-9 col-sm-9">' +
+                    '            <div class="w-grid ' + hot_str + '">' +
+                    '<span class="w-label'+font_str+'">' +
+                    discounts[i].content + '</span>' +
+                    '            </div>' +
+                    '        </div>' +
+                    '    </div>';
+            }
+        }
+        $("#discount_history_div").html(markup);
     }
 
     function loadCharts(chart_data) {
@@ -355,9 +392,41 @@ if (isset($_REQUEST['sku_id'])) {
                 </div>
         </div>
     </div>
-
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="w-grid">
+                <span class="w-label-xl b">历史活动列表</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="discount_history_div">
+<!--    <div class="row">-->
+<!--        <div class="col-xs-3 col-sm-3">-->
+<!--            <div class="w-grid">-->
+<!--                11-15-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-xs-9 col-sm-9">-->
+<!--            <div class="w-grid">-->
+<!--                满199，减100-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="w-grid">
+                <span class="w-space-6"></span>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 
