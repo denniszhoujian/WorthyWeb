@@ -127,6 +127,8 @@ if (isset($_REQUEST['sku_id'])) {
             $("#j_gift_num").html(thumb.gift_num);
             $("#j_gift_price").html(disposeNumber(thumb.gift_price,0));
             $("#j_gift_image").attr('src',image_url_prefix_xs + thumb.gift_image);
+            $("#gift_link").attr('href','<?php echo $URL_HOST; ?>/skuAnalytics.php?sku_id='+thumb.gift_sku_id);
+            if (thumb.gift_price==null) $("#gift_link").attr('href','http://item.m.jd.com/product/'+thumb.gift_sku_id +'.html');
         } else
             $("#j_gift_div").css('display','none');
     }
@@ -351,7 +353,7 @@ if (isset($_REQUEST['sku_id'])) {
         </div>
         <div class="col-xs-10 col-sm-10">
             <div class="w-grid">
-                <span class="w-label" id="j_gift_title"></span>
+                <a href="#" id="gift_link"><span class="w-label" id="j_gift_title"></span></a>
             </div>
         </div>
     </div>
