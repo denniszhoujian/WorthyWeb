@@ -64,10 +64,10 @@ if (isset($_REQUEST['sku_id'])) {
             },
             success:function(data){
                 try {
+                    fillImageFlips(data.worthy, data.images);
                     fillThumb(data.worthy);
                     fillDiscounts(data.discount_list);
                     loadCharts(data.price_chart);
-                    fillImageFlips(data.worthy, data.images);
                     fillDiscountHistory(data.discount_history_list);
                 } finally {
                     $.hideLoading();
@@ -99,13 +99,13 @@ if (isset($_REQUEST['sku_id'])) {
             '                </div>';
         $("#j_image_div").html(markup);
 
-//        $('#carousel-239807').hammer().on('swipeleft', function(){
-//            $(this).carousel('next');
-//        });
-//
-//        $('#carousel-239807').hammer().on('swiperight', function(){
-//            $(this).carousel('prev');
-//        });
+        $('#carousel-239807').hammer().on('swipeleft', function(){
+            $(this).carousel('next');
+        });
+
+        $('#carousel-239807').hammer().on('swiperight', function(){
+            $(this).carousel('prev');
+        });
     }
 
     function fillThumb(thumb) {
@@ -118,10 +118,12 @@ if (isset($_REQUEST['sku_id'])) {
         var base_price = thumb.median_price;
         if (thumb.current_price > base_price) base_price = current_price;
         $("#j_base_price").html(base_price);
-        $("#j_final_discount").html(disposeNumber(thumb.final_price/base_price*10,1));
+        var max_price = base_price;
+        if (thumb.current_price>base_price) max_price = thumb.current_price;
+        $("#j_final_discount").html(disposeNumber(thumb.final_price/max_price*10,1));
         $("#j_base_discount").html('('+disposeNumber(thumb.current_price/base_price*100,0)+'\%)');
         $("#j_min_price").html(disposeNumber(thumb.min_price,0));
-        if (thumb.min_price_reached) $("#j_min_price_reached").html("历史最低价");
+        if (thumb.min_price_reached>1) $("#j_min_price_reached").html("目前价格为历史最低");
         if (thumb.gift_name!=null) {
             $("#j_gift_title").html(thumb.gift_name);
             $("#j_gift_num").html(thumb.gift_num);
@@ -154,7 +156,7 @@ if (isset($_REQUEST['sku_id'])) {
 
     function fillDiscountHistory(discounts) {
         var markup = "";
-        if (discounts.length == 0) {
+        if (discounts == null || discounts.length == 0) {
             markup = "从2015年11月30日起没有参与活动";
         } else {
             for (i=0;i<discounts.length;i++) {
@@ -405,20 +407,8 @@ if (isset($_REQUEST['sku_id'])) {
         </div>
     </div>
 </div>
-<div class="container-fluid" id="discount_history_div">
-<!--    <div class="row">-->
-<!--        <div class="col-xs-3 col-sm-3">-->
-<!--            <div class="w-grid">-->
-<!--                11-15-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="col-xs-9 col-sm-9">-->
-<!--            <div class="w-grid">-->
-<!--                满199，减100-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-</div>
+
+<div class="container-fluid" id="discount_history_div"></div>
 
 <div class="container-fluid">
     <div class="row">

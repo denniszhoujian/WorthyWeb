@@ -15,8 +15,12 @@ global $URL_HOST;
  */
 
 /** TEST ENV */
-$URL_HOST = "http://localhost";
-$URL_JSONP = "http://127.0.0.1:8080";
+//$URL_HOST = "http://localhost";
+//$URL_JSONP = "http://127.0.0.1:8080";
+
+/** TEST ENV */
+$URL_HOST = "http://192.168.31.106";
+$URL_JSONP = "http://192.168.31.106:8080";
 
 /** PROD ENV */
 //$URL_HOST = "http://www.moshutao.com";
