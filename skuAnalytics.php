@@ -8,6 +8,7 @@
 include "config.php";
 
 $sku_id = -9999;
+$from_web = 0;
 if (isset($_REQUEST['sku_id'])) {
     try {
         $sku_id = intval($_REQUEST['sku_id'], 10);
@@ -19,6 +20,13 @@ if (isset($_REQUEST['sku_id'])) {
 } else {
     echo "非法请求";
     die;
+}
+
+if (isset($_REQUEST['from'])) {
+    try {
+        if ($_REQUEST['from'] == 'web')
+            $from_web = 1;
+    } catch (Exception $e) {}
 }
 
 ?>
@@ -267,6 +275,12 @@ if (isset($_REQUEST['sku_id'])) {
 
 <body>
 
+<?php
+if ($from_web) {
+    include('nav.php');
+}
+?>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-12">
@@ -371,7 +385,7 @@ if (isset($_REQUEST['sku_id'])) {
                 <img src="resources/placeholder.png" width="32" height="32" id="j_gift_image"/>
                 <span class="w-label">x<span id="j_gift_num"></span></span>
                 <span class="w-space-6"></span>
-                <span class="w-label">￥<span id="j_gift_price">28</span></span>
+                <span class="w-label">￥<span id="j_gift_price"></span></span>
             </div>
         </div>
     </div>
@@ -391,9 +405,7 @@ if (isset($_REQUEST['sku_id'])) {
 
     <div class="row">
         <div class="col-xs-12 col-sm-12">
-                <div class="w-chart" id="price-chart">
-                    CHART HERE
-                </div>
+                <div class="w-chart" id="price-chart"></div>
         </div>
     </div>
 </div>
@@ -419,6 +431,12 @@ if (isset($_REQUEST['sku_id'])) {
         </div>
     </div>
 </div>
+
+<?php
+if ($from_web) {
+    include('jd_button.php');
+}
+?>
 
 </body>
 
