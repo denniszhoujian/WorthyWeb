@@ -24,6 +24,14 @@ if (isset($_REQUEST['category_name'])) {
     catch (Exception $e) {}
 }
 
+$query = "";
+if (isset($_REQUEST['query'])) {
+    try {
+        $query = $_REQUEST['query'];
+    }
+    catch (Exception $e) {}
+}
+
 ?>
 
 
@@ -49,7 +57,7 @@ if (isset($_REQUEST['category_name'])) {
         //$(".w-flip").attr('width',window.innerWidth-24);
         window.scrollTo(0,0);
         fillCategories();
-        loadFrame(g_category_id,1);
+        loadFrame(g_category_id,0);
         register_scroll_bottom();
     });
 
@@ -99,7 +107,7 @@ if (isset($_REQUEST['category_name'])) {
     function switchCategory(cat_id) {
         g_category_id = cat_id;
         g_start_pos = 1;
-        loadFrame(cat_id,1);
+        loadFrame(cat_id,0);
     }
 
     function getScrollHeight(){
@@ -146,7 +154,7 @@ if (isset($_REQUEST['category_name'])) {
             url:'<?php echo $URL_JSONP?>/sku/list',
             dataType: 'jsonp',
             type:'get',
-            data: {'category_id': category_id, 'startpos':start_pos},
+            data: {'category_id': category_id, 'startpos':start_pos, 'query':'<?php echo $query; ?>'},
             async : true,
             timeout: 100000,
             error:function(){
@@ -167,8 +175,8 @@ if (isset($_REQUEST['category_name'])) {
     function processData(data) {
         var markup = "";
         if (data.length == 0) {
-            var non_str = "现在没有折扣商品,请稍后再来"
-            $("#sku-list-div").html(none_str);
+            var none_str = "现在没有折扣商品,请稍后再来"
+//            $("#sku-list-div").html(none_str);
             return -1;
         }
 
