@@ -285,7 +285,7 @@ if ($from_web) {
     <div class="row">
         <div class="col-xs-12 col-sm-12">
             <div class="w-grid c" id="j_image_div">
-                <img id="j_main_image" src="resources/placeholder_large.png">
+
             </div>
         </div>
     </div>

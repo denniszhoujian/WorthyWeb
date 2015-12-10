@@ -12,5 +12,6 @@
 <script type="text/javascript" src="js/hammer-2.0.4/hammer.min.js"></script>
 <script type="text/javascript" src="js/hammer-2.0.4/jquery.hammer.js"></script>
 <script type="text/javascript" src="js/echarts-2.2.7/echarts.js"></script>
+<!--<script type="text/javascript" src="js/mmenu1.0/js/jquery.mmenu.min.all.js"></script>-->
 <script type="text/javascript" src="js/showloading/jquery.showloading.js"></script>
 

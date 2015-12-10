@@ -49,12 +49,15 @@ if (isset($_REQUEST['query'])) {
     var g_frames = 0;
     var g_old_time = 0;
     var g_new_id = "sku-list-div";
+    var g_no_more_data = 0;
+    var g_loading = 0;
     var image_url_prefix_xl = 'http://img11.360buyimg.com/n1/';
     var image_url_prefix_xs = 'http://img11.360buyimg.com/n9/';
 
     $(document).ready(function() {
-        //$("#j_main_image").attr('width',window.innerWidth-24);
-        //$(".w-flip").attr('width',window.innerWidth-24);
+        $("#j_search_submit").on('click',function(){
+            $("#j_search_form").submit();
+        });
         window.scrollTo(0,0);
         fillCategories();
         loadFrame(g_category_id,0);
@@ -124,16 +127,16 @@ if (isset($_REQUEST['query'])) {
 
     function register_scroll_bottom() {
         $(window).scroll(function() {
+
+            if(g_no_more_data) return;
+
             var $this = $(this),
-                viewH = $(this).height(),//可见高度
-                contentH = getScrollHeight(),//内容高度
-                scrollTop = $(this).scrollTop();//滚动高度
-//            console.log(contentH - viewH + ', ' +scrollTop);
-            if (contentH - viewH - scrollTop <= 100) { //到达底部100px时,加载新内容
+                viewH = $(this).height(),
+                contentH = getScrollHeight(),
+                scrollTop = $(this).scrollTop();
+            if (contentH - viewH - scrollTop <= 100) {
                 //console.log('here');
                 var timestamp = Date.parse(new Date());
-                console.log(g_frames);
-                console.log(g_start_pos);
                 if ( (timestamp - g_old_time) > 500 && g_frames*30>=(g_start_pos-1) ) {
                     g_old_time = timestamp;
                     loadFrame(g_category_id, g_start_pos);
@@ -149,6 +152,8 @@ if (isset($_REQUEST['query'])) {
     }
 
     function loadFrame(category_id,start_pos) {
+        if (g_loading > 0) return;
+        g_loading = 1;
         $.showLoading();
         $.ajax({
             url:'<?php echo $URL_JSONP?>/sku/list',
@@ -160,25 +165,30 @@ if (isset($_REQUEST['query'])) {
             error:function(){
                 console.log('error');
                 $.hideLoading();
+                g_loading = 0;
             },
             success:function(data){
                 try {
                     processData(data);
+                    fillNavTitle();
                 } finally {
                     $.hideLoading();
+                    g_loading = 0;
                 }
             },
             cache: true
         });
     }
 
+    function noMoreData() {
+        g_no_more_data = 1;
+        $("#j_pull_refresh").html("没有更多折扣商品了");
+    }
+
     function processData(data) {
         var markup = "";
-        if (data.length == 0) {
-            var none_str = "现在没有折扣商品,请稍后再来"
-//            $("#sku-list-div").html(none_str);
-            return -1;
-        }
+        if (data.length<30) noMoreData();
+        if (data.length == 0) return -1;
 
         g_frames ++;
 
@@ -203,14 +213,21 @@ if (isset($_REQUEST['query'])) {
         g_start_pos += data.length;
 
         addConnector();
+        if (data.length<30) noMoreData();
     }
 
     function fillNavTitle() {
         var str = "";
+
+        <?php if ($query == "") { ?>
+
         if (g_category_id == '_EXPENSIVE_') str = "超值折扣";
         else if (g_category_id == '_ALL_') str = "全部折扣";
         else str = "<?php echo $category_name; ?>";
-        $("#j_nav_title").html('JJ - ' + str);
+
+        <?php } else echo "str = '$query';\n"; ?>
+
+        $("#query").attr('placeholder',str);
     }
 
     function fillThumb(sku_id, thumb) {
@@ -243,9 +260,6 @@ if (isset($_REQUEST['query'])) {
             $("#j_gift_div" + sku_id_idstr).css('display', 'none');
             $("#j_gift_div2" + sku_id_idstr).css('display', 'none');
         }
-//        $("#j_tbl_grid" + sku_id_idstr).on('click',function(){
-//            gridOnClick();
-//        });
     }
 
     function gridOnClick() {
@@ -258,7 +272,6 @@ if (isset($_REQUEST['query'])) {
         //if (disc.length > 0) $("#j_discount_div" + sku_id_idstr).css('display','block'); else $("#j_discount_div" + sku_id_idstr).css('display','none');
         for (var i=0;i<disc.length;i++) {
             markup +=
-//                '						<div class="row">' +
                 '                            <div class="col-xs-3 col-sm-3 no-padding">' +
                 '                                <div class="w-list">' +
                 '                                    <span class="w-badge-label">' + disc[i].name + '</span>' +
@@ -268,7 +281,6 @@ if (isset($_REQUEST['query'])) {
                 '                                <div class="w-list">' +
                 '                                    <span class="w-label w-color-discounts">' + disc[i].content + '</span>' +
                 '                                </div>' +
-//                '                            </div>' +
                 '                        </div>';
         }
         $("#j_discount_div" + sku_id_idstr).html(markup);
@@ -276,12 +288,9 @@ if (isset($_REQUEST['query'])) {
 
     function addConnector() {
         var html = $("#sku_table_view").html();
-
         var timestamp = Date.parse(new Date());
         var newid = "sku-list-div-" + timestamp;
-//        $("#sku-list-div").attr("id","sku-list-div-" + timestamp);
-
-        var markup = '<div class="container-fluid"><div class="row w-container" id="'+newid+'"><div class="c">下拉加载更多…</div></div></div>';
+        var markup = '<div class="container-fluid"><div class="row w-container" id="'+newid+'"><div class="c w-vertical-padding" id="j_pull_refresh"><li class="fa fa-circle-o-notch fa-spin"></li>&nbsp;正在努力加载中…</div></div></div>';
         html += markup;
         $("#sku_table_view").html(html);
         g_new_id = newid;
@@ -293,42 +302,28 @@ if (isset($_REQUEST['query'])) {
 
 <body>
 
-<!--<div class="w-category-container" id="j_category_div">-->
-<!--</div>-->
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+            <nav class="navbar  navbar-worthy navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-                    </button> <a class="navbar-brand" href="#" id="j_nav_title">JJ</a>
+                    </button>
+                    <a class="navbar-brand" href="#" id="j_nav_title"><img src="resources/jj_icon.gif" width="20" height="20"></a>
+                    <p class="navbar-text navbar-right">
+                        <form class="navbar-left" id="j_search_form">
+                            <span class="search-form">
+                                <input type="text" width="300" heigh="40" class="searchbox" placeholder="输入搜索词…" id="query" name="query">
+                                &nbsp;<a href="#" id="j_search_submit""><li class="fa fa-search"></li></a>
+                            </span>
+                        </form>
+                    </p>
                 </div>
-
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav" id="j_category_ul">
-                        <li class="active">
-                            <a href="#">Link</a>
-                        </li>
-
-                    </ul>
-<!--                    <form class="navbar-form navbar-left" role="search">-->
-<!--                        <div class="form-group">-->
-<!--                            <input type="text" class="form-control" />-->
-<!--                        </div>-->
-<!--                        <button type="submit" class="btn btn-default">-->
-<!--                            Submit-->
-<!--                        </button>-->
-<!--                    </form>-->
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-<!--                            <a href="#"></a>-->
-                        </li>
                     </ul>
                 </div>
-
             </nav>
         </div>
     </div>
@@ -482,6 +477,7 @@ if (isset($_REQUEST['query'])) {
 </div>
 
 
+<?php include "footer.php"; ?>
 
 </body>
 
