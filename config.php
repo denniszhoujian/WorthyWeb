@@ -9,6 +9,9 @@
 
 global $URL_JSONP;
 global $URL_HOST;
+global $CONST_DEFAULT_CATALOG_ID;
+global $CONST_DEFAULT_CATALOG_NAME;
+
 
 /**
  *  Configurations
@@ -22,5 +25,7 @@ $URL_JSONP = "http://192.168.31.106:8080";
 //$URL_HOST = "http://www.moshutao.com:9090";
 //$URL_JSONP = "http://www.moshutao.com:8090";
 
+$CONST_DEFAULT_CATALOG_ID = "_ALL_";
+$CONST_DEFAULT_CATALOG_NAME = "全部折扣";
 
 ?>

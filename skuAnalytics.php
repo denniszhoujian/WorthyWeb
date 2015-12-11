@@ -212,19 +212,16 @@ if (isset($_REQUEST['from'])) {
                     tooltip : {
                         trigger: 'axis'
                     },
-//                    legend: {
-//                        data:['价格']
-//                    },
                     toolbox: {
                         show : false
                     },
-                    calculable : true,
-//                    dataZoom: {
-//                        show: true,
-//                        realtime: true,
-//                        start: 0,
-//                        end: 100
-//                    },
+                    calculable : false,
+                    dataZoom: {
+                        show: true,
+                        realtime: true,
+                        start: 0,
+                        end: 100
+                    },
                     xAxis : [
                         {
                             type : 'category',

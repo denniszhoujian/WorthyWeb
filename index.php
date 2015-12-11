@@ -8,7 +8,7 @@
 
 include "config.php";
 
-$category_id = "_EXPENSIVE_";
+$category_id = $CONST_DEFAULT_CATALOG_ID;
 if (isset($_REQUEST['category_id'])) {
     try {
         $category_id = $_REQUEST['category_id'];
@@ -16,7 +16,7 @@ if (isset($_REQUEST['category_id'])) {
     catch (Exception $e) {}
 }
 
-$category_name = "超值折扣";
+$category_name = $CONST_DEFAULT_CATALOG_NAME;
 if (isset($_REQUEST['category_name'])) {
     try {
         $category_name = $_REQUEST['category_name'];
@@ -89,8 +89,8 @@ if (isset($_REQUEST['query'])) {
 
     function expandCategories(data) {
         var newdata = new Array();
-        newdata.push({'category_id':'_EXPENSIVE_', 'category_name': '超值折扣'});
         newdata.push({'category_id':'_ALL_', 'category_name': '全部折扣'});
+        newdata.push({'category_id':'_EXPENSIVE_', 'category_name': '超值折扣'});
         for (var i=0;i<data.length;i++) {
             newdata.push(data[i]);
         }
