@@ -227,7 +227,8 @@ if (isset($_REQUEST['query'])) {
 
         <?php } else echo "str = '$query';\n"; ?>
 
-        $("#query").attr('placeholder',str);
+//        $("#query").attr('placeholder',str);
+        $("#query").attr('value',str);
     }
 
     function fillThumb(sku_id, thumb) {
