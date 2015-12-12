@@ -31,7 +31,7 @@ if (isset($_REQUEST['from_web'])) {
 
 $is_ws = 0;
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
-if (strpos($user_agent, 'MicroMessenger') === true) {
+if (strpos($user_agent, 'MicroMessenger') > 0 ) {
     $is_ws = 1;
 }
 
