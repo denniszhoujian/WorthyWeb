@@ -195,6 +195,9 @@ if (isset($_REQUEST['query'])) {
         for (i=0;i<data.length;++i) {
             var sku = data[i];
             var sku_id = sku.sku_id;
+//            console.log(sku.title);
+            if (sku.title == null || sku.title=='undefined') continue;
+
             var plain_html = getSkuThumbHtmlWithId(sku_id);
             markup += plain_html;
         }
@@ -218,17 +221,16 @@ if (isset($_REQUEST['query'])) {
 
     function fillNavTitle() {
         var str = "";
-
+        var p_str = "";
         <?php if ($query == "") { ?>
-
-        if (g_category_id == '_EXPENSIVE_') str = "超值折扣";
-        else if (g_category_id == '_ALL_') str = "全部折扣";
-        else str = "<?php echo $category_name; ?>";
-
-        <?php } else echo "str = '$query';\n"; ?>
-
-//        $("#query").attr('placeholder',str);
-        $("#query").attr('value',str);
+            p_str = '<?php echo $category_name; ?>';
+            if (g_category_id == '_EXPENSIVE_') p_str = "超值折扣";
+            else if (g_category_id == '_ALL_') p_str = "全部折扣";
+            $("#query").attr('placeholder',p_str);
+        <?php } else {?>
+            str = '<?php echo $query; ?>';
+            $("#query").attr('value',str);
+        <?php } ?>
     }
 
     function fillThumb(sku_id, thumb) {
@@ -242,7 +244,7 @@ if (isset($_REQUEST['query'])) {
         $("#j_final_price" + sku_id_idstr).html(thumb.final_price);
         $("#j_mobile_price" + sku_id_idstr).html(thumb.current_price);
         var base_price = thumb.median_price;
-        if (thumb.current_price > base_price) base_price = current_price;
+        if (thumb.current_price > base_price) base_price = thumb.current_price;
         $("#j_base_price" + sku_id_idstr).html(base_price);
         var max_price = base_price;
         if (thumb.current_price>base_price) max_price = thumb.current_price;
