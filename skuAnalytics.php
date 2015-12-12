@@ -29,6 +29,12 @@ if (isset($_REQUEST['from_web'])) {
     } catch (Exception $e) {}
 }
 
+$is_ws = 0;
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+if (strpos($user_agent, 'MicroMessenger') === true) {
+    $is_ws = 1;
+}
+
 ?>
 
 <!doctype html>
@@ -272,7 +278,7 @@ if (isset($_REQUEST['from_web'])) {
 <body>
 
 <?php
-if ($from_web) {
+if ($from_web && !$is_ws) {
     include('nav.php');
 }
 ?>
