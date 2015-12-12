@@ -301,7 +301,7 @@ if (isset($_REQUEST['query'])) {
 
 <body>
 
-<div class="for_ws_share"><img src="resources/ws/ws-<?php echo rand(1,7);?>.png" width="80"></div>
+<div class="for_ws_share"><img src="resources/ws/ws-<?php echo rand(1,6);?>.png" width="80"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
