@@ -15,3 +15,14 @@
 <!--<script type="text/javascript" src="js/mmenu1.0/js/jquery.mmenu.min.all.js"></script>-->
 <script type="text/javascript" src="js/showloading/jquery.showloading.js"></script>
 
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?1bbf4663fbb04d55fd78562d6d28570e";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+

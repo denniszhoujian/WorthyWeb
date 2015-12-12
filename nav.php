@@ -10,11 +10,12 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+            <nav class="navbar navbar-worthy navbar-fixed-top" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="javascript:history.go(-1)">< 返回</a>
+                    <a class="navbar-brand" href="javascript:history.go(-1)"><li class="fa fa-chevron-left"></li>&nbsp;返回</a>
+                    &nbsp;
+                    <a class="navbar-brand" href="index.php">首页</a>
                 </div>
-
             </nav>
         </div>
     </div>

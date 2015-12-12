@@ -36,9 +36,9 @@ if (isset($_REQUEST['sku_id'])) {
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <nav class="navbar navbar-default navbar-inverse navbar-fixed-bottom" role="navigation">
+            <nav class="navbar navbar-worthy navbar-fixed-bottom" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand c" href="http://item.m.jd.com/product/<?php echo $sku_id; ?>.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;到京东商城查看购买&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    <a class="navbar-brand c" href="http://item.m.jd.com/product/<?php echo $sku_id; ?>.html">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;京东商城直达链接&nbsp;<li class="fa fa-chevron-right"></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
                 </div>
 
             </nav>

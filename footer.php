@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="mst-footer">
 
-                魔数淘 - 大数据便捷你的生活
+                JJ - 减减购 - 京东正品折扣精选
                 <br>
                 京ICP备15046140号
             </div>

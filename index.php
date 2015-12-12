@@ -234,7 +234,7 @@ if (isset($_REQUEST['query'])) {
         var sku_id_idstr = '_rotate_' + sku_id;
         $("#j_main_image" + sku_id_idstr).attr('src',thumb.thumbnail_url);
         $("#j_title" + sku_id_idstr).html(thumb.title);
-        $("#j_title" + sku_id_idstr).attr('href','<?php echo $URL_HOST ?>/skuAnalytics.php?from=web&sku_id=' + sku_id);
+        $("#j_title" + sku_id_idstr).attr('href','<?php echo $URL_HOST ?>/skuAnalytics.php?from_web=web&sku_id=' + sku_id);
         if (thumb.rating_score_diff != null)
             $("#j_rating_diff" + sku_id_idstr).html('高于'+disposeNumber(thumb.rating_score_diff*100,0)+'\%的'+thumb.category_name+'类商品');
         else $("#j_ratings" + sku_id_idstr).css('display','none');
@@ -297,11 +297,11 @@ if (isset($_REQUEST['query'])) {
         return newid;
     }
 
-
 </script>
 
 <body>
 
+<div class="for_ws_share"><img src="resources/ws/ws-<?php echo rand(1,7);?>.png" width="80"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -476,8 +476,6 @@ if (isset($_REQUEST['query'])) {
     </div>
 </div>
 
-
-<?php include "footer.php"; ?>
 
 </body>
 

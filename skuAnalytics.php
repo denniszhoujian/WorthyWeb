@@ -22,9 +22,9 @@ if (isset($_REQUEST['sku_id'])) {
     die;
 }
 
-if (isset($_REQUEST['from'])) {
+if (isset($_REQUEST['from_web'])) {
     try {
-        if ($_REQUEST['from'] == 'web')
+        if ($_REQUEST['from_web'] == 'web')
             $from_web = 1;
     } catch (Exception $e) {}
 }
@@ -41,17 +41,9 @@ if (isset($_REQUEST['from'])) {
     var image_url_prefix_xl = 'http://img11.360buyimg.com/n1/';
     var image_url_prefix_xs = 'http://img11.360buyimg.com/n9/';
 
-
     $(document).ready(function() {
 
         $.showLoading();
-
-        require.config({
-            paths: {
-                echarts: "js/echarts-2.2.7"
-            }
-        });
-
         $("#j_main_image").attr('width',window.innerWidth-24);
         $(".w-flip").attr('width',window.innerWidth-24);
 
@@ -117,18 +109,23 @@ if (isset($_REQUEST['from'])) {
     }
 
     function fillThumb(thumb) {
+        var title_str = "JJ减减购 - 京东自营超值折扣 - "
         $("#j_title").html(thumb.title);
         if (thumb.rating_score_diff != null)
             $("#j_rating_diff").html('高于'+disposeNumber(thumb.rating_score_diff*100,0)+'\%的'+thumb.category_name+'类商品');
         else $("#j_ratings").css('display','none');
         $("#j_final_price").html(thumb.final_price);
+        title_str += "￥" + thumb.final_price;
         $("#j_mobile_price").html(thumb.current_price);
         var base_price = thumb.median_price;
         if (thumb.current_price > base_price) base_price = current_price;
         $("#j_base_price").html(base_price);
         var max_price = base_price;
         if (thumb.current_price>base_price) max_price = thumb.current_price;
-        $("#j_final_discount").html(disposeNumber(thumb.final_price/max_price*10,1));
+        var final_discount = thumb.final_price/max_price*10;
+        $("#j_final_discount").html(disposeNumber(final_discount,1));
+        if (final_discount < 9.5) title_str += '(' + disposeNumber(final_discount,1) + '折)';
+        title_str += ' - '
         $("#j_base_discount").html('('+disposeNumber(thumb.current_price/base_price*100,0)+'\%)');
         $("#j_min_price").html(disposeNumber(thumb.min_price,0));
         if (thumb.min_price_reached>1) $("#j_min_price_reached").html("目前价格为历史最低");
@@ -141,6 +138,8 @@ if (isset($_REQUEST['from'])) {
             if (thumb.gift_price==null) $("#gift_link").attr('href','http://item.m.jd.com/product/'+thumb.gift_sku_id +'.html');
         } else
             $("#j_gift_div").css('display','none');
+        title_str += thumb.title;
+        document.title = title_str;
     }
 
     function fillDiscounts(disc) {
@@ -438,5 +437,6 @@ if ($from_web) {
 </body>
 
 <?php include "scripts.php"; ?>
+<?php include "scripts_extended.php"; ?>
 
 </html>
