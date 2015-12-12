@@ -18,12 +18,12 @@ global $CONST_DEFAULT_CATALOG_NAME;
  */
 
 /** TEST ENV */
-$URL_HOST = "http://192.168.31.106";
-$URL_JSONP = "http://192.168.31.106:8080";
+//$URL_HOST = "http://192.168.31.106";
+//$URL_JSONP = "http://192.168.31.106:8080";
 
 /** PROD ENV */
-//$URL_HOST = "http://www.moshutao.com";
-//$URL_JSONP = "http://www.moshutao.com:8090";
+$URL_HOST = "http://www.moshutao.com";
+$URL_JSONP = "http://www.moshutao.com:8090";
 
 $CONST_DEFAULT_CATALOG_ID = "_ALL_";
 $CONST_DEFAULT_CATALOG_NAME = "全部折扣";
