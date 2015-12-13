@@ -45,16 +45,21 @@ if (isset($_REQUEST['query'])) {
      * SETTING CONSTS & GLOBAL VARS
      * */
     var g_category_id = "<?php echo $category_id; ?>";
+    var c_thum_width_ratio = 0.25;
     var g_start_pos = 1;
     var g_frames = 0;
     var g_old_time = 0;
     var g_new_id = "sku-list-div";
     var g_no_more_data = 0;
     var g_loading = 0;
+    var g_screen_width = 800;
     var image_url_prefix_xl = 'http://img11.360buyimg.com/n1/';
     var image_url_prefix_xs = 'http://img11.360buyimg.com/n9/';
 
     $(document).ready(function() {
+        g_screen_width = top.window.innerWidth;
+        console.log("screen_width="+g_screen_width);
+        adjustWidthDistribution();
         $("#j_search_submit").on('click',function(){
             $("#j_search_form").submit();
         });
@@ -63,6 +68,16 @@ if (isset($_REQUEST['query'])) {
         loadFrame(g_category_id,0);
         register_scroll_bottom();
     });
+
+    function adjustWidthDistribution() {
+        var new_width = parseInt(g_screen_width*c_thum_width_ratio);
+        console.log('new_width = ' + new_width);
+        $(".w-thumb").each(function(){
+            console.log($(this).attr('id'));
+            $(this).css('width',new_width);
+            $(this).css('height',new_width);
+        });
+    }
 
     function fillCategories() {
         $.ajax({
@@ -170,13 +185,14 @@ if (isset($_REQUEST['query'])) {
             success:function(data){
                 try {
                     processData(data);
+                    adjustWidthDistribution();
                     fillNavTitle();
                 } finally {
                     $.hideLoading();
                     g_loading = 0;
                 }
             },
-            cache: true
+            cache: false
         });
     }
 
@@ -195,7 +211,6 @@ if (isset($_REQUEST['query'])) {
         for (i=0;i<data.length;++i) {
             var sku = data[i];
             var sku_id = sku.sku_id;
-//            console.log(sku.title);
             if (sku.title == null || sku.title=='undefined') continue;
 
             var plain_html = getSkuThumbHtmlWithId(sku_id);
@@ -353,13 +368,13 @@ if (isset($_REQUEST['query'])) {
         <div class="w-tbl-grid" id="j_tbl_grid_rotate">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-xs-2 col-sm-2 no-padding">
+                    <div class="col-xs-3 col-sm-3 no-padding">
 
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 no-padding">
                                     <div class="w-list c" id="j_image_div_rotate">
-                                        <img id="j_main_image_rotate" src="resources/placeholder_large.png" width="70">
+                                        <img id="j_main_image_rotate" class="w-thumb" src="resources/ws/ws-<?php echo rand(1,6);?>.png" width="70">
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +382,7 @@ if (isset($_REQUEST['query'])) {
 
                     </div>
 
-                    <div class="col-xs-10 col-sm-10">
+                    <div class="col-xs-9 col-sm-9">
 
                         <div class="container-fluid">
                             <div class="row">
