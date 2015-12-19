@@ -328,7 +328,7 @@ if (isset($_REQUEST['query'])) {
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#" id="j_nav_title"><img src="resources/jj_icon.gif" width="20" height="20"></a>
+                    <a class="navbar-brand" href="#" id="j_nav_title"><img src="resources/dj_web.png" height="23"></a>
                     <p class="navbar-text navbar-right">
                         <form class="navbar-left" id="j_search_form">
                             <span class="search-form">
@@ -375,6 +375,7 @@ if (isset($_REQUEST['query'])) {
                                 <div class="col-xs-12 col-sm-12 no-padding">
                                     <div class="w-list c" id="j_image_div_rotate">
                                         <img id="j_main_image_rotate" class="w-thumb" src="resources/ws/ws-<?php echo rand(1,6);?>.png" width="70">
+                                        <span class="w-label w-color-main b" id="j_min_price_reached_rotate"></span>
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +389,7 @@ if (isset($_REQUEST['query'])) {
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 no-padding">
                                     <div class="w-list">
-                                        <span class="w-label w-color-main b" id="j_min_price_reached_rotate"></span>
+<!--                                        <span class="w-label w-color-main b" id="j_min_price_reached_rotate"></span>-->
                                         <span class="w-label-l"><a href="#" id="j_title_rotate"></a>&nbsp;</span>
                                     </div>
                                 </div>

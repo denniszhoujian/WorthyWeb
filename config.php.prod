@@ -25,7 +25,7 @@ global $CONST_DEFAULT_CATALOG_NAME;
 $URL_HOST = "http://www.moshutao.com";
 $URL_JSONP = "http://www.moshutao.com:8090";
 
-$CONST_DEFAULT_CATALOG_ID = "_ALL_";
-$CONST_DEFAULT_CATALOG_NAME = "全部折扣";
+$CONST_DEFAULT_CATALOG_ID = "_HISTORY_LOWEST_";
+$CONST_DEFAULT_CATALOG_NAME = "历史最低";
 
 ?>
