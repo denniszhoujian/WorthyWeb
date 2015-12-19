@@ -55,10 +55,21 @@ if (isset($_REQUEST['query'])) {
     var g_screen_width = 800;
     var image_url_prefix_xl = 'http://img11.360buyimg.com/n1/';
     var image_url_prefix_xs = 'http://img11.360buyimg.com/n9/';
+    var g_blocks = 1;
+
+    if (window.innerWidth >= 992)
+        g_blocks = 2;
+    if (window.innerWidth >= 1200)
+        g_blocks = 3;
 
     $(document).ready(function() {
         g_screen_width = top.window.innerWidth;
-        console.log("screen_width="+g_screen_width);
+
+        if (g_blocks > 1) {
+            $("#j_space_holder").html('<div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div><div class="w-space-6">&nbsp;</div>');
+        }
+
+//        console.log("blocks="+g_blocks);
         adjustWidthDistribution();
         $("#j_search_submit").on('click',function(){
             $("#j_search_form").submit();
@@ -70,10 +81,10 @@ if (isset($_REQUEST['query'])) {
     });
 
     function adjustWidthDistribution() {
-        var new_width = parseInt(g_screen_width*c_thum_width_ratio);
-        console.log('new_width = ' + new_width);
+        var new_width = parseInt(g_screen_width*c_thum_width_ratio/g_blocks);
+//        console.log('new_width = ' + new_width);
         $(".w-thumb").each(function(){
-            console.log($(this).attr('id'));
+//            console.log($(this).attr('id'));
             $(this).css('width',new_width);
             $(this).css('height',new_width);
         });
@@ -104,8 +115,6 @@ if (isset($_REQUEST['query'])) {
 
     function expandCategories(data) {
         var newdata = new Array();
-//        newdata.push({'category_id':'_ALL_', 'category_name': '全部折扣'});
-//        newdata.push({'category_id':'_EXPENSIVE_', 'category_name': '超值折扣'});
         for (var i=0;i<data.length;i++) {
             newdata.push(data[i]);
         }
@@ -119,6 +128,8 @@ if (isset($_REQUEST['query'])) {
 //            markup += '<span class="w-category-item" onclick="switchCategory("'+data[i].category_id+'")">'+data[i].category_name+'</span>';
             markup += '<li><a href="index.php?category_name='+newdata[i].category_name+'&category_id='+newdata[i].category_id+'" abc="switchCategory("'+newdata[i].category_id+'")">'+newdata[i].category_name+'</a></li>';
         }
+        if (g_blocks>1)
+        markup += '<li><a href="#" id="j_ICP">(京ICP备15046140号)</a><li>'
         $("#j_category_ul").html(markup);
     }
 
@@ -329,7 +340,7 @@ if (isset($_REQUEST['query'])) {
                         <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="#" id="j_nav_title"><img src="resources/dj_web.png" height="23"></a>
-                    <p class="navbar-text navbar-right">
+                    <p class="navbar-text navbar-left">
                         <form class="navbar-left" id="j_search_form">
                             <span class="search-form">
                                 <input type="text" width="300" heigh="40" class="searchbox" placeholder="输入搜索词…" id="query" name="query">
@@ -337,6 +348,7 @@ if (isset($_REQUEST['query'])) {
                             </span>
                         </form>
                     </p>
+
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav" id="j_category_ul">
@@ -352,7 +364,7 @@ if (isset($_REQUEST['query'])) {
         <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12">
             <div class="w-space-6">&nbsp;</div>
             <div class="w-space-6">&nbsp;</div>
-            <div class="w-space-6">&nbsp;</div>
+            <div class="w-space-6" id="j_space_holder">&nbsp;</div>
         </div>
     </div>
 </div>
