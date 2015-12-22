@@ -25,7 +25,7 @@ $URL_JSONP = "http://192.168.31.106:8080";
 //$URL_HOST = "http://www.moshutao.com";
 //$URL_JSONP = "http://www.moshutao.com:8090";
 
-$CONST_DEFAULT_CATALOG_ID = "_HISTORY_LOWEST_";
-$CONST_DEFAULT_CATALOG_NAME = "历史最低";
+$CONST_DEFAULT_CATALOG_ID = "_ALL_";
+$CONST_DEFAULT_CATALOG_NAME = "全部折扣";
 
 ?>
